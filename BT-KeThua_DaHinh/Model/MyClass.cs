@@ -2,9 +2,9 @@ using System.Text.Json;
 
 public class GiaoDich
 {
-    public string PhuongThuc { get; set; }
+    public string? PhuongThuc { get; set; }
     public double SoTien { get; set; }
-    public DateTime ThoiGian { get; set; }
+    public DateTime? ThoiGian { get; set; }
 }
 
 public class LichSuGiaoDich
@@ -27,7 +27,13 @@ public class LichSuGiaoDich
         {
             foreach (var gd in lichSu)
             {
-                Console.WriteLine($"{gd.ThoiGian}: {gd.PhuongThuc} - {gd.SoTien} VND");
+                Console.WriteLine(@$"
+                Lịch sử các giao dịch của bạn:
+                Thời gian: {gd.ThoiGian},
+                Bằng phương thức: {gd.PhuongThuc},
+                Số tiền bạn giao dịch: {gd.SoTien} VND
+
+            ");
             }
         }
     }

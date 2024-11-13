@@ -1,15 +1,17 @@
+using BT_KeThua_DaHinh.Service;
+using System.Text;
+
 public class Menu
 {
     private LichSuGiaoDich lichSuGiaoDich = new LichSuGiaoDich();
-    private ThanhToanService thanhToanService = new ThanhToanService();
+    private ThanhToanService thanhToan = new ThanhToanService();
 
     public void HienThi()
     {
-        lichSuGiaoDich.TaiLichSu();
-
         while (true)
         {
-            Console.WriteLine("\nChọn phương thức thanh toán:");
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.WriteLine("Chọn phương thức thanh toán:");
             Console.WriteLine("1. Thanh toán bằng tiền mặt");
             Console.WriteLine("2. Thanh toán bằng thẻ");
             Console.WriteLine("3. Thanh toán online");
@@ -18,32 +20,32 @@ public class Menu
 
             int luaChon = int.Parse(Console.ReadLine());
 
-            Console.Write("Nhập số tiền cần thanh toán: ");
-            double soTien = double.Parse(Console.ReadLine());
+            if (luaChon == 5) break;
+            double soTien = 0;
+            if (luaChon >= 1 && luaChon <= 3)
+            {
+                Console.Write("Nhập số tiền cần thanh toán: ");
+                soTien = double.Parse(Console.ReadLine());
+            }
 
             switch (luaChon)
             {
                 case 1:
-                    thanhToanService.ThanhToanTienMat(soTien);
+                    thanhToan.ThanhToan(soTien, "tien mat");
                     lichSuGiaoDich.ThemGiaoDich(new GiaoDich { PhuongThuc = "Tiền mặt", SoTien = soTien, ThoiGian = DateTime.Now });
                     break;
                 case 2:
-                    if (thanhToanService.ThanhToanTheNganHang(soTien))
-                    {
-                        lichSuGiaoDich.ThemGiaoDich(new GiaoDich { PhuongThuc = "Thẻ", SoTien = soTien, ThoiGian = DateTime.Now });
-                    }
+                    thanhToan.ThanhToan(soTien, "the");
+                    lichSuGiaoDich.ThemGiaoDich(new GiaoDich { PhuongThuc = "Thẻ", SoTien = soTien, ThoiGian = DateTime.Now });
                     break;
                 case 3:
-                    if (thanhToanService.ThanhToanOnline(soTien))
-                    {
-                        lichSuGiaoDich.ThemGiaoDich(new GiaoDich { PhuongThuc = "Online", SoTien = soTien, ThoiGian = DateTime.Now });
-                    }
+                    thanhToan.ThanhToan(soTien, "online");
+                    lichSuGiaoDich.ThemGiaoDich(new GiaoDich { PhuongThuc = "Online", SoTien = soTien, ThoiGian = DateTime.Now });
                     break;
                 case 4:
+                    lichSuGiaoDich.TaiLichSu();
                     lichSuGiaoDich.XemLichSu();
                     break;
-                case 5:
-                    return;
                 default:
                     Console.WriteLine("Lựa chọn không hợp lệ.");
                     break;
