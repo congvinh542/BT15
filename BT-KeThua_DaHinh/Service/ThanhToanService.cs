@@ -4,8 +4,10 @@ using System.Diagnostics;
 
 public class ThanhToanService : IThanhToan
 {
+    private LichSuGiaoDich LichSuGiaoDich = new LichSuGiaoDich();
     public void ThanhToan(double soTien, string phuongThuc)
     {
+
         switch (phuongThuc.Trim().ToLower()){
             case "tien mat":
                 {
