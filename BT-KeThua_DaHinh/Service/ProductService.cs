@@ -10,52 +10,69 @@ namespace BT_KeThua_DaHinh.Service
     public class ProductService : IProductService
     {
 
-        List<GiaoDich> lichSu = new List<GiaoDich>();
         List<Product> products = new List<Product>();
+        List<GiaoDich> lichSu = new List<GiaoDich>();
 
-        public void TinhGia(double giaBan,string category)
+        public void TinhGia(double giaGoc,double thue, int category)
         {
-            Product product = new Product();
-            Console.OutputEncoding = Encoding.UTF8;
-            switch (category.Trim().ToLower())
+            var product = new Product();
+
+            if (category == 1)
             {
-                case "dien tu":
-                    {
-                        Console.WriteLine("Mời bạn nhập vào % thuế bảo hành");
-                        double thue = double.Parse(Console.ReadLine()) / 100;
-                        product.HienThiThongTin(thue);
-                    }
-                    break;
-                case "thoi trang":
-                    {
-                        Console.WriteLine("Mời bạn nhập vào % gía giảm theo mùa");
-                        double thue = double.Parse(Console.ReadLine()) / 100;
-                        product.HienThiThongTin(thue);
-                    }
-                    break;
-                case "thuc pham":
-                    {
-                        Console.WriteLine("Mời bạn nhập vào phí vận chuyển");
-                        double thue = double.Parse(Console.ReadLine()) / 100;
-                        product.HienThiThongTin(thue);
-                    }
-                    break;
-                default:
-                    break;
+                product.GiaBan += giaGoc * thue;
+            }else if (category == 2)
+            {
+                product.GiaBan -= product.GiaGoc * thue;
+            }else if(category == 3)
+            { 
+                product.GiaBan += product.GiaGoc + thue;
             }
         }
         public void Create()
         {
             var product = new Product();
+
+            Console.WriteLine("Mời bạn chọn loại sản phẩm: ");
+            Console.WriteLine(@"1. Điện tử.
+                                2. Thời trang.
+                                3. Thực phẩm.");
+            int opption = int.Parse(Console.ReadLine());
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("Mời bạn nhập mã sản phẩm: ");
             product.MaSanPham = Console.ReadLine();
             Console.WriteLine("Mời bạn nhập tên sản phẩm: ");
             product.TenSanPham = Console.ReadLine();
-            Console.WriteLine("Mời bạn nhập giá góc sản phẩm: ");
+            Console.WriteLine("Mời bạn nhập giá gốc sản phẩm: ");
             product.GiaGoc = double.Parse(Console.ReadLine());
+            switch (opption)
+            {
+                case 1:
+                    {
+                        Console.WriteLine("Mời bạn nhập vào % thuế bảo hành");
+                        double thue = double.Parse(Console.ReadLine()) / 100;
+                        TinhGia(product.GiaGoc, thue, 1);
+                    }
+                    break;
+                case 2:
+                    {
+                        Console.WriteLine("Mời bạn nhập vào % gía giảm theo mùa");
+                        double thue = double.Parse(Console.ReadLine()) / 100;
+                        TinhGia(product.GiaGoc, thue, 2);
+                    }
+                    break;
+                case 3:
+                    {
+                        Console.WriteLine("Mời bạn nhập vào phí vận chuyển");
+                        double thue = double.Parse(Console.ReadLine()) / 100;
+                        TinhGia(product.GiaGoc, thue, 3);
+                    }
+                    break;
+                default:
+                    break;
+            }
+       
 
-            if(product != null)
+            if (product != null)
             {
                 products = new List<Product>();
             }
@@ -82,47 +99,14 @@ namespace BT_KeThua_DaHinh.Service
             }
         }
 
-
-
-        public void Create(string phuongThuc, double soTien)
-        {
-            var giaoDich = new GiaoDich
-            {
-                PhuongThuc = phuongThuc,
-                SoTien = soTien,
-                ThoiGian = DateTime.Now
-            };
-            lichSu.Add(giaoDich);
-        }
-
-        public void XemLichSu()
-        {
-            if (lichSu.Count == 0)
-            {
-                Console.WriteLine("Chưa có giao dịch nào.");
-            }
-            else
-            {
-                foreach (var gd in lichSu)
-                {
-                    Console.WriteLine(@$"
-                    Lịch sử các giao dịch của bạn:
-                    Thời gian: {gd.ThoiGian},
-                    Bằng phương thức: {gd.PhuongThuc},
-                    Số tiền bạn giao dịch: {gd.SoTien} VND
-
-                    ");
-                }
-            }
-        }
-
         public void TongDoanhThuDuKien()
         {
-            var result = 0;
+            double result = 0;
             foreach(var pd in products)
             {
-
+                result += pd.GiaBan;
             }
+            Console.WriteLine($"Tổng doanh thu dự kiến là {result}");
         }
 
         public void SaveFile()
@@ -150,5 +134,6 @@ namespace BT_KeThua_DaHinh.Service
             this.lichSu = JsonSerializer.Deserialize<List<GiaoDich>>(giaoDich);
             this.products = JsonSerializer.Deserialize<List<Product>>(product);
         }
+
     }
 }

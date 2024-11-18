@@ -3,13 +3,13 @@ using System.Text;
 
 public class Menu
 {
-    private LichSuGiaoDich lichSuGiaoDich = new LichSuGiaoDich();
+    private ProductService productService = new ProductService();
     private ThanhToanService thanhToan = new ThanhToanService();
     public void HienThi()
     {
         while (true)
         {
-            lichSuGiaoDich.LoadFile();
+            productService.LoadFile();
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.WriteLine(@"Chọn bài tập: 
@@ -41,25 +41,25 @@ public class Menu
                     {
                         case 1:
                             thanhToan.ThanhToan(soTien, "tien mat");
-                            lichSuGiaoDich.Create( "Tiền mặt",soTien);
+                            thanhToan.Create( "Tiền mặt",soTien);
                             break;
                         case 2:
                             thanhToan.ThanhToan(soTien, "the");
-                            lichSuGiaoDich.Create("Thẻ", soTien);
+                            thanhToan.Create("Thẻ", soTien);
                             break;
                         case 3:
                             thanhToan.ThanhToan(soTien, "online");
-                            lichSuGiaoDich.Create("Thanh toán online", soTien);
+                            thanhToan.Create("Thanh toán online", soTien);
                             break;
                         case 4:
-                            lichSuGiaoDich.XemLichSu();
+                            thanhToan.XemLichSu();
                             break;
                         default:
                             Console.WriteLine("Lựa chọn không hợp lệ.");
                             break;
                     }
                 }
-            }if(chon == 2)
+            }else if(chon == 2)
             {
                 while(true)
                 {
@@ -76,15 +76,17 @@ public class Menu
                 switch (luaChon)
                 {
                     case 1:
-                        
+                            productService.Create();
                         break;
                     case 2:
-                        
+                            Product product = new Product();
+                            product.HienThiThongTin();
                         break;
                     case 3:
-                        
+                            productService.TongDoanhThuDuKien();
                         break;
                     case 4:
+                            productService.DeleteProduct();
                         break;
                     default:
                         Console.WriteLine("Lựa chọn không hợp lệ.");

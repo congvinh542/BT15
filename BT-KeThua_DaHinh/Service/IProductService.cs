@@ -8,6 +8,6 @@ namespace BT_KeThua_DaHinh.Service
 {
     public interface IProductService
     {
-        void TinhGia(double giaBan, string category);
+        void TinhGia(double giaGoc, double thue, int category);
     }
 }

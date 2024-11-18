@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 public class ThanhToanService : IThanhToan
 {
-    private LichSuGiaoDich LichSuGiaoDich = new LichSuGiaoDich();
+    List<GiaoDich> lichSu = new List<GiaoDich>();
     public void ThanhToan(double soTien, string phuongThuc)
     {
 
@@ -48,6 +48,39 @@ public class ThanhToanService : IThanhToan
                 break;
             default:
                 break;
+        }
+    }
+
+
+    public void Create(string phuongThuc, double soTien)
+    {
+        var giaoDich = new GiaoDich
+        {
+            PhuongThuc = phuongThuc,
+            SoTien = soTien,
+            ThoiGian = DateTime.Now
+        };
+        lichSu.Add(giaoDich);
+    }
+
+    public void XemLichSu()
+    {
+        if (lichSu.Count == 0)
+        {
+            Console.WriteLine("Chưa có giao dịch nào.");
+        }
+        else
+        {
+            foreach (var gd in lichSu)
+            {
+                Console.WriteLine(@$"
+                Lịch sử các giao dịch của bạn:
+                Thời gian: {gd.ThoiGian},
+                Bằng phương thức: {gd.PhuongThuc},
+                Số tiền bạn giao dịch: {gd.SoTien} VND
+
+                ");
+            }
         }
     }
 }

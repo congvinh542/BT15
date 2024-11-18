@@ -20,19 +20,20 @@ public class Product {
     public string? MaSanPham { get; set; }
     public string? TenSanPham { get; set; }
     public double GiaGoc { get; set; }
+    public double GiaBan { get; set; }
 
     public void SetID()
     {
         Id++;
     }
 
-    public virtual void HienThiThongTin(Double input)
+    public virtual void HienThiThongTin()
     {
         Console.WriteLine(@$"
         Mã sản phẩm: {MaSanPham},   
         Tên sản phẩm: {TenSanPham}, 
         Giá gốc: {GiaGoc},
-        Giá bán: {GiaGoc * input}");
+        Giá bán: {GiaBan}");
     }
 }
 
