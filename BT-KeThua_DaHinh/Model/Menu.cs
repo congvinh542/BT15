@@ -12,9 +12,7 @@ public class Menu
             productService.LoadFile();
             Console.OutputEncoding = Encoding.UTF8;
 
-            Console.WriteLine(@"Chọn bài tập: 
-                                1. Thanh toán.
-                                2. Quản lý bán hàng.");
+            Console.WriteLine("Chọn bài tập:\n1. Thanh toán.\n2. Quản lý bán hàng.");
             int chon = int.Parse(Console.ReadLine());
             if(chon == 1)
             {
@@ -67,7 +65,7 @@ public class Menu
                     Console.WriteLine("1. Thêm sản phẩm vào danh sách.");
                     Console.WriteLine("2. Hiển thị danh sách sản phẩm.");
                     Console.WriteLine("3. Tính tổng doanh thu dự kiến.");
-                    Console.WriteLine("4.  Xóa sản phẩm khỏi danh sách theo mã.");
+                    Console.WriteLine("4. Xóa sản phẩm khỏi danh sách theo mã.");
                     Console.WriteLine("5. Thoát");
                 int luaChon = int.Parse(Console.ReadLine());
 
@@ -79,8 +77,7 @@ public class Menu
                             productService.Create();
                         break;
                     case 2:
-                            Product product = new Product();
-                            product.HienThiThongTin();
+                            productService.HienThiThongTin();
                         break;
                     case 3:
                             productService.TongDoanhThuDuKien();

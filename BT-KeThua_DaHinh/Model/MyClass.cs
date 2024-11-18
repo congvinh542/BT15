@@ -26,14 +26,5 @@ public class Product {
     {
         Id++;
     }
-
-    public virtual void HienThiThongTin()
-    {
-        Console.WriteLine(@$"
-        Mã sản phẩm: {MaSanPham},   
-        Tên sản phẩm: {TenSanPham}, 
-        Giá gốc: {GiaGoc},
-        Giá bán: {GiaBan}");
-    }
 }
 
